@@ -86,8 +86,8 @@ def get_service(host):
     print(r.text)
 
 
-def get_request(host, url):
-    print(" [x] Trying to send Get request to host %r " % host)
+def send_request(host, url):
+    print(" [x] Trying to send request to host %r " % host)
     headers = {'Host': host}
     r = requests.get(api_services_url + url, headers=headers)
     print(r.status_code)
