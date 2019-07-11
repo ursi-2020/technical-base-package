@@ -95,6 +95,17 @@ def send_request(host, url):
     return r.text
 
 
+def post_request(host, url, body):
+    print(" [x] Trying to send Get request to host %r " % host)
+    headers = {'Host': host}
+    r = requests.post(api_services_url + url, headers=headers, data=body)
+    if r.status_code == 200:
+        print(" [x] Post request successfully sent to host %r " % host)
+    else:
+        print(" [x] Post request FAILED exited with error code: " % r.status_code)
+    return r.status_code
+
+
 def get_all_routes():
     r = requests.get(api_manager_url + 'routes/')
     routes = json.loads(r.text)
