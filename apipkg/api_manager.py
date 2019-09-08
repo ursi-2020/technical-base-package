@@ -48,9 +48,15 @@ def delete_service_with_route(route_name):
     print(" [x] Successfully deleted the service name %r" % route_name)
 
 
-# TODO delete service and all its routes
 def delete_service_with_routes(service_name):
-    print('TODO')
+    r = requests.get(api_manager_url + 'services/' + service_name + '/routes/')
+    routes = json.loads(r.text)
+    for route in routes['data']:
+        print('Id : %r' % route['id'])
+        r = requests.delete(api_manager_url + 'routes/' + route['id'])
+    print(" [x] Successfully deleted all the routes of service %r" % service_name)
+    r = requests.delete(api_manager_url + 'services/' + service_name)
+    print(" [x] Successfully deleted service %r" % service_name)
 
 
 def add_route(service_name, host):
