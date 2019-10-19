@@ -117,10 +117,10 @@ def post_request(host, url, body):
         if r.status_code == 200:
             print(" [x] Post request successfully sent to host %r " % host)
         else:
-            print(bcolors.FAIL + " [x] Post request FAILED exited with error code: %r" % r.status_code)
+            print(bcolors.FAIL + " [x] Post request FAILED exited with error code: %r" + bcolors.ENDC % r.status_code)
         return r.status_code
     except requests.exceptions.RequestException as err:
-        print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" % err)
+        print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" + bcolors.ENDC % err)
 
 
 def get_all_routes():
@@ -194,7 +194,7 @@ def schedule_task(host, url, time, recurrence, data, source, name):
             print(" [x] Task %r successfully added to %r app" % (name, host))
             return r.text
     except requests.exceptions.RequestException as err:
-        print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" % err)
+        print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" + bcolors.ENDC % err)
 
 # Don't forget to start kong service
 #if __name__ == '__main__':
