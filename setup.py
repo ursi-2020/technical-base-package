@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="apipkg",
-    version="0.0.8",
+    version="0.0.9",
     author="Socle technique SIGL 2020",
     author_email="brandonquinne@hotmail.fr",
     description="Package for api manager kong service wrapper ",
