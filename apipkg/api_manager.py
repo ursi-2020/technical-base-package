@@ -170,6 +170,16 @@ def add_consumer(consumer_name):
     print(" [x] Successfully added auth-key to the service name %r" % consumer_name)
 
 
+def schedule_task(host, url, time, recurrence, data, source, name):
+    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
+    headers = {'Host': 'scheduler'}
+    data = {"target_url": url, "target_app": host, "time": time_str, "recurrence": recurrence
+            "data": data, "source_app": source, "name": name}
+    r = requests.post(api_services_url + 'schedule/add', headers=headers, json=data)
+    print(r.status_code)
+    print(r.text)
+    return r.text
+
 # Don't forget to start kong service
 #if __name__ == '__main__':
     # register('http://mockbin.org', 'test-service3')
