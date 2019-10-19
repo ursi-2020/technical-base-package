@@ -4,6 +4,16 @@ import json
 api_manager_url = 'http://localhost:8001/'
 api_services_url = 'http://localhost:8000/'
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 
 # Add a default route named same as the service name
 def register(url, service_name):
@@ -107,10 +117,10 @@ def post_request(host, url, body):
         if r.status_code == 200:
             print(" [x] Post request successfully sent to host %r " % host)
         else:
-            print(" [x] Post request FAILED exited with error code: %r and error:" % r.status_code)
+            print(bcolors.FAIL + " [x] Post request FAILED exited with error code: %r" % r.status_code)
         return r.status_code
     except requests.exceptions.RequestException as err:
-        print(" [x] Post request FAILED exited with error: %r" % err)
+        print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" % err)
 
 
 def get_all_routes():
@@ -174,14 +184,17 @@ def add_consumer(consumer_name):
 
 
 def schedule_task(host, url, time, recurrence, data, source, name):
-    time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
-    headers = {'Host': 'scheduler'}
-    data = {"target_url": url, "target_app": host, "time": time_str, "recurrence": recurrence,
-            "data": data, "source_app": source, "name": name}
-    r = requests.post(api_services_url + 'schedule/add', headers=headers, json=data)
-    print(r.status_code)
-    print(r.text)
-    return r.text
+    try:
+        time_str = time.strftime('%d/%m/%Y-%H:%M:%S')
+        headers = {'Host': 'scheduler'}
+        data = {"target_url": url, "target_app": host, "time": time_str, "recurrence": recurrence,
+                "data": data, "source_app": source, "name": name}
+        r = requests.post(api_services_url + 'schedule/add', headers=headers, json=data)
+        if r.status_code == 200:
+            print(" [x] Task %r successfully added to %r app" % (name, host))
+            return r.text
+    except requests.exceptions.RequestException as err:
+        print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" % err)
 
 # Don't forget to start kong service
 #if __name__ == '__main__':
