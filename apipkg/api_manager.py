@@ -101,13 +101,16 @@ def send_request(host, url):
 
 def post_request(host, url, body):
     print(" [x] Trying to send Get request to host %r " % host)
-    headers = {'Host': host}
-    r = requests.post(api_services_url + url, headers=headers, data=body)
-    if r.status_code == 200:
-        print(" [x] Post request successfully sent to host %r " % host)
-    else:
-        print(" [x] Post request FAILED exited with error code: " % r.status_code)
-    return r.status_code
+    try:
+        headers = {'Host': host}
+        r = requests.post(api_services_url + url, headers=headers, data=body)
+        if r.status_code == 200:
+            print(" [x] Post request successfully sent to host %r " % host)
+        else:
+            print(" [x] Post request FAILED exited with error code: %r and error:" % r.status_code)
+        return r.status_code
+    except requests.exceptions.RequestException as err:
+        print(" [x] Post request FAILED exited with error: %r" % err)
 
 
 def get_all_routes():
