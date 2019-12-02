@@ -130,7 +130,9 @@ def post_request2(host, url, body):
         r = requests.post(api_services_url + url, headers=headers, data=body)
         if r.status_code == 200:
             print(" [x] Post request successfully sent to host %r " % host)
-            return r.status_code, r
+        else:
+            print(bcolors.FAIL + " [x] Post request failed sent to host %r and url : %r" % (host, url) + bcolors.ENDC)
+        return r.status_code, r
     except requests.exceptions.RequestException as err:
         print(bcolors.FAIL + " [x] Post request FAILED exited with error: %r" + bcolors.ENDC % err)
         return err.response.status_code, err
