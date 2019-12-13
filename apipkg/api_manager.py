@@ -108,6 +108,20 @@ def send_request(host, url):
     r = requests.get(api_services_url + url, headers=headers)
     return r.text
 
+def get_request(host, url):
+    print(" [x] Trying to send GET request to host %r " % host)
+    try:
+        headers = {'Host': host}
+        r = requests.get(api_services_url + url, headers=headers)
+        if r.status_code == 200 :
+            print(" [x] GET request successfully sent to host %r " % host)
+        else:
+            print(bcolors.FAIL + " [x] GET request FAILED exited with error code: %r" % r.status_code + bcolors.ENDC)
+        return r.status_code, r
+    except requests.exceptions.RequestException as err:
+        print(bcolors.FAIL + " [x] GET request FAILED exited with error: %r" + bcolors.ENDC % err)
+        return err.response.status_code, err
+
 
 def post_request(host, url, body):
     print(" [x] Trying to send Get request to host %r " % host)
